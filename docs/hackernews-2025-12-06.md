@@ -1,3 +1,7 @@
+layout: post
+title: "HackerNews Daily - 2025-12-06"
+date: 2025-12-06
+
 # HackerNews Daily - 2025-12-06
 
 ## 1. 【基拉韦厄火山喷发，摧毁网络摄像头[视频]】

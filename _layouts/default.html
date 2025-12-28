@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "zh-CN" }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+    <link rel="stylesheet" href="{{ "/assets/css/theme.css" | relative_url }}">
+    <link rel="stylesheet" href="{{ "/assets/css/layout.css" | relative_url }}">
+    <link rel="stylesheet" href="{{ "/assets/css/components.css" | relative_url }}">
+    <style>
+      .post-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .post-list-item {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: border-color 0.2s ease;
+      }
+
+      .post-list-item:hover {
+        border-color: var(--accent-color);
+      }
+
+      .post-list-item h2 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .post-list-item h2 a {
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .post-list-item h2 a:hover {
+        color: var(--accent-color);
+      }
+
+      .post-list-item .date {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header-title"><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-toggle-icon">🔄</span>
+        <span class="theme-toggle-label">Auto</span>
+      </button>
+    </header>
+
+    <div class="container">
+      <main class="content" style="width: 100%;">
+        <h1 style="margin-bottom: 2rem;">Latest Posts</h1>
+        <ul class="post-list">
+          {% for post in site.posts %}
+            <li class="post-list-item">
+              <h2><a href="{{ post.url | relative_url }}">{{ post.date | date: "%Y-%m-%d" }}</a></h2>
+              <p class="date">{{ post.date | date: "%Y年%m月%d日" }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </main>
+    </div>
+
+    <script src="{{ "/assets/js/theme-toggle.js" | relative_url }}"></script>
+
+    {% if site.google_analytics %}
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ site.google_analytics }}');
+      </script>
+    {% endif %}
+  </body>
+</html>

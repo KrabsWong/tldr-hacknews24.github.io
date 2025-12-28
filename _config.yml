@@ -1,6 +1,6 @@
 title: TL;DR.HackerNews24
 description: Read it 1000 years later bro.
-theme: jekyll-theme-minimal
+theme: null
 markdown: kramdown
 plugins:
   - jekyll-relative-links

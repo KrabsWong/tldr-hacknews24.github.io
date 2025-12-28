@@ -226,7 +226,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  max-height: 1000px;
+  max-height: 2000px;
   overflow: hidden;
   transition: max-height 0.3s ease;
 }

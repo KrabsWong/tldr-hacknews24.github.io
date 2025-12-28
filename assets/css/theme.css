@@ -3,6 +3,7 @@
   --bg-secondary: #f8f9fa;
   --text-primary: #202124;
   --text-secondary: #5f6368;
+  --text-tertiary: #9aa0a6;
   --accent-color: #1a73e8;
   --accent-hover: #1557b0;
   --border-color: #dadce0;
@@ -14,6 +15,7 @@
   --bg-secondary: #2d2d2d;
   --text-primary: #e8eaed;
   --text-secondary: #9aa0a6;
+  --text-tertiary: #6e7278;
   --accent-color: #8ab4f8;
   --accent-hover: #aecbfa;
   --border-color: #3c4043;
@@ -26,6 +28,7 @@
     --bg-secondary: #2d2d2d;
     --text-primary: #e8eaed;
     --text-secondary: #9aa0a6;
+    --text-tertiary: #6e7278;
     --accent-color: #8ab4f8;
     --accent-hover: #aecbfa;
     --border-color: #3c4043;

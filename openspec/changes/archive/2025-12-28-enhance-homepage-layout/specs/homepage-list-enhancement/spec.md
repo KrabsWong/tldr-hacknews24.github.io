@@ -1,6 +1,6 @@
 # Spec: Homepage List Enhancement
 
-## MODIFIED Requirements
+## ADDED Requirements
 
 ### Requirement: Homepage displays simplified post list
 The homepage MUST display a list of posts with simplified, date-only title presentation.

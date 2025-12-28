@@ -13,12 +13,9 @@
     <link rel="stylesheet" href="{{ "/assets/css/components.css" | relative_url }}">
   </head>
   <body>
-    <header class="header">
-      <h1 class="header-title"><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
-      <button class="theme-toggle" aria-label="Toggle theme">
-        <span class="theme-toggle-icon">🔄</span>
-        <span class="theme-toggle-label">Auto</span>
-      </button>
+    <header class="mobile-header">
+      <span class="mobile-title">{{ site.title | default: site.github.repository_name }}</span>
+      <span class="mobile-tagline">{{ site.description }}</span>
     </header>
 
     <div class="container">
@@ -35,6 +32,10 @@
             </ul>
           </div>
         </div>
+
+        <div class="sidebar-footer">
+          Built with <a href="https://jekyllrb.com" target="_blank">Jekyll</a> and hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a>.
+        </div>
       </aside>
 
       <main class="content">
@@ -48,6 +49,10 @@
         </div>
       </main>
     </div>
+
+    <footer class="site-footer">
+      Built with <a href="https://jekyllrb.com" target="_blank">Jekyll</a> and hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a>.
+    </footer>
 
     <script src="{{ "/assets/js/theme-toggle.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>

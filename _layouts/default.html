@@ -41,15 +41,14 @@
               <div class="post-titles">
                 {% assign titles = post.content | split: "## " %}
                 {% for title_section in titles %}
-                  {% if forloop.first == false %}
-                    {% assign title_lines = title_section | newline_to_br | split: "<br />" %}
-                    {% assign clean_title = title_lines[0] | strip_html | strip %}
-                    {% if clean_title != "" %}
-                      <a href="{{ post.url | relative_url }}" class="article-title" aria-label="阅读文章: {{ clean_title }}">
-                        {{ clean_title }}
+                  {% unless forloop.first %}
+                    {% assign title_line = title_section | truncate: 200, "" | split: "<" | first | strip %}
+                    {% unless title_line == "" %}
+                      <a href="{{ post.url | relative_url }}" class="article-title" aria-label="阅读文章: {{ title_line }}">
+                        {{ title_line }}
                       </a>
-                    {% endif %}
-                  {% endif %}
+                    {% endunless %}
+                  {% endunless %}
                 {% endfor %}
               </div>
             </li>

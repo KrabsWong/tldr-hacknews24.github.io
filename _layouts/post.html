@@ -8,9 +8,9 @@
     <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
     <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
-    <link rel="stylesheet" href="{{ "/assets/css/theme.css" | relative_url }}?v=2">
-    <link rel="stylesheet" href="{{ "/assets/css/layout.css" | relative_url }}?v=2">
-    <link rel="stylesheet" href="{{ "/assets/css/components.css" | relative_url }}?v=2">
+    <link rel="stylesheet" href="{{ "/assets/css/theme.css" | relative_url }}?v=3">
+    <link rel="stylesheet" href="{{ "/assets/css/layout.css" | relative_url }}?v=3">
+    <link rel="stylesheet" href="{{ "/assets/css/components.css" | relative_url }}?v=3">
   </head>
   <body>
     <header class="mobile-header">
@@ -59,10 +59,24 @@
     <!-- Back to Top Button -->
     <button class="back-to-top" aria-label="回到顶部">↑</button>
 
-    <!-- Mobile Dot Navigation -->
-    <nav class="mobile-dot-nav" aria-label="文章导航">
-      <ul id="dot-nav-list"></ul>
-    </nav>
+    <!-- Mobile Navigation Menu -->
+    <button class="mobile-menu-toggle" aria-label="打开目录菜单" aria-expanded="false">
+      <span class="hamburger-icon"></span>
+    </button>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" aria-hidden="true">
+      <div class="mobile-nav-overlay"></div>
+      <aside class="mobile-nav-panel">
+        <div class="mobile-nav-header">
+          <h3>目录</h3>
+          <button class="mobile-nav-close" aria-label="关闭目录">&times;</button>
+        </div>
+        <nav class="mobile-nav-content">
+          <ul id="mobile-nav-list"></ul>
+        </nav>
+      </aside>
+    </div>
 
     <script src="{{ "/assets/js/theme-toggle.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
@@ -82,10 +96,14 @@
     document.addEventListener('DOMContentLoaded', function() {
       const postContent = document.querySelector('.post-content');
       const outlineList = document.getElementById('outline-list');
-      const dotNavList = document.getElementById('dot-nav-list');
+      const mobileNavList = document.getElementById('mobile-nav-list');
       const backToTopBtn = document.querySelector('.back-to-top');
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      const mobileNavDrawer = document.querySelector('.mobile-nav-drawer');
+      const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+      const mobileNavClose = document.querySelector('.mobile-nav-close');
 
-      if (!postContent || !outlineList || !dotNavList) return;
+      if (!postContent || !outlineList || !mobileNavList) return;
 
       // Get all h2 headings
       const headings = postContent.querySelectorAll('h2');
@@ -115,19 +133,35 @@
         li.appendChild(a);
         outlineList.appendChild(li);
 
-        // Create dot navigation item for mobile
-        const dotLi = document.createElement('li');
-        const dotBtn = document.createElement('button');
-        dotBtn.setAttribute('aria-label', '跳转到: ' + heading.textContent.replace(/^\d+\.\s*/, ''));
-        dotBtn.setAttribute('data-target', heading.id);
-        dotBtn.className = 'dot-nav-btn';
-        dotLi.appendChild(dotBtn);
-        dotNavList.appendChild(dotLi);
+        // Create mobile navigation item (same structure)
+        const mobileLi = document.createElement('li');
+        const mobileA = document.createElement('a');
+        mobileA.href = '#' + heading.id;
+        mobileA.textContent = heading.textContent.replace(/^\d+\.\s*/, '');
+        mobileA.className = 'mobile-nav-link';
+        mobileLi.appendChild(mobileA);
+        mobileNavList.appendChild(mobileLi);
       });
 
       // Smooth scroll and active state handling
       const outlineLinks = document.querySelectorAll('.outline-link');
-      const dotNavBtns = document.querySelectorAll('.dot-nav-btn');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      // Function to close mobile drawer
+      function closeMobileDrawer() {
+        mobileNavDrawer.classList.remove('active');
+        mobileNavDrawer.setAttribute('aria-hidden', 'true');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      // Function to open mobile drawer
+      function openMobileDrawer() {
+        mobileNavDrawer.classList.add('active');
+        mobileNavDrawer.setAttribute('aria-hidden', 'false');
+        mobileMenuToggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
 
       // Handle outline link clicks (desktop TOC)
       outlineLinks.forEach(link => {
@@ -149,23 +183,50 @@
         });
       });
 
-      // Handle dot navigation button clicks (mobile)
-      dotNavBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const targetId = this.getAttribute('data-target');
+      // Handle mobile navigation link clicks
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
           const targetElement = document.getElementById(targetId);
 
           if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
+            closeMobileDrawer();
+            
+            setTimeout(() => {
+              targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }, 300); // Wait for drawer to close
 
             // Update active state
-            dotNavBtns.forEach(b => b.classList.remove('active'));
+            mobileNavLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
           }
         });
+      });
+
+      // Mobile menu toggle
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileDrawer);
+      }
+
+      // Close drawer on overlay click
+      if (mobileNavOverlay) {
+        mobileNavOverlay.addEventListener('click', closeMobileDrawer);
+      }
+
+      // Close drawer on close button click
+      if (mobileNavClose) {
+        mobileNavClose.addEventListener('click', closeMobileDrawer);
+      }
+
+      // Close drawer on ESC key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileNavDrawer.classList.contains('active')) {
+          closeMobileDrawer();
+        }
       });
 
       // Back to top button functionality
@@ -199,11 +260,11 @@
             }
           });
 
-          // Update mobile dot navigation
-          dotNavBtns.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-target') === activeHeading.id) {
-              btn.classList.add('active');
+          // Update mobile navigation
+          mobileNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + activeHeading.id) {
+              link.classList.add('active');
             }
           });
         }

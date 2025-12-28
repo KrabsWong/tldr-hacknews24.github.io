@@ -167,6 +167,7 @@
   color: var(--accent-color);
   text-decoration: none;
   transition: color 0.2s ease;
+  word-wrap: break-word;
 }
 
 .post-content a:hover {

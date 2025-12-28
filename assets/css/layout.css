@@ -34,6 +34,12 @@ body {
   flex-shrink: 0;
 }
 
+.site-info .avatar {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
 .site-info h1 {
   margin: 0 0 0.5rem 0;
   font-size: 1.5rem;
@@ -172,6 +178,11 @@ body {
   overflow: hidden;
 }
 
+hr {
+  border: none;
+  height: 20px;
+}
+
 @media (max-width: 768px) {
   .mobile-header {
     display: flex;
@@ -192,7 +203,8 @@ body {
   }
 
   .sidebar {
-    display: none;
+    display: flex;
+    width: 100%;
   }
 
   .content {
@@ -212,5 +224,10 @@ body {
   .post-excerpt {
     font-size: 0.9rem;
     -webkit-line-clamp: 2;
+  }
+
+  hr {
+    border: none;
+    height: 10px;
   }
 }

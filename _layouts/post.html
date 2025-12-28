@@ -113,27 +113,8 @@
         return;
       }
 
-      // Helper function to generate anchor ID (must match homepage Liquid template logic)
-      function generateAnchorId(text, index) {
-        const normalized = text.toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/'/g, '')
-          .replace(/"/g, '')
-          .replace(/:/g, '')
-          .replace(/,/g, '')
-          .replace(/\./g, '')
-          .replace(/\?/g, '')
-          .replace(/!/g, '')
-          .substring(0, 50);
-        return 'heading-' + index + '-' + normalized;
-      }
-
       headings.forEach((heading, index) => {
-        // Create an ID for the heading if it doesn't exist
-        if (!heading.id) {
-          const text = heading.textContent.trim();
-          heading.id = generateAnchorId(text, index);
-        }
+        // Use Jekyll/kramdown generated ID (already on the heading)
 
         // Create outline item for desktop TOC
         const li = document.createElement('li');

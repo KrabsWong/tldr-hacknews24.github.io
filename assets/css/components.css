@@ -418,23 +418,25 @@
 
 .mobile-nav-content li {
   margin: 0;
+  padding: 0 0.75rem;
 }
 
 .mobile-nav-link {
   display: block;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 0.75rem;
+  margin: 0.15rem 0;
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.5;
   transition: all 0.2s ease;
-  border-left: 3px solid transparent;
+  border-left: 2px solid transparent;
+  border-radius: 4px;
 }
 
 .mobile-nav-link:hover {
   background: var(--bg-secondary);
   color: var(--accent-color);
-  border-left-color: var(--accent-color);
 }
 
 .mobile-nav-link.active {

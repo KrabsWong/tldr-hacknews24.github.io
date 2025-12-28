@@ -39,10 +39,10 @@
                 <h2>{{ post.date | date: "%Y-%m-%d" }}</h2>
               </a>
               <div class="post-titles">
-                {% assign content_lines = post.content | newline_to_br | split: "<br />" %}
-                {% for line in content_lines %}
-                  {% if line contains "## " %}
-                    {% assign title_text = line | remove: "##" | strip_html | strip %}
+                {% assign title_sections = post.content | split: "## " %}
+                {% for section in title_sections %}
+                  {% if forloop.first == false %}
+                    {% assign title_text = section | truncate: 150, "" | split: "**" | first | strip %}
                     {% unless title_text == "" %}
                       <a href="{{ post.url | relative_url }}" class="article-title" aria-label="阅读文章: {{ title_text }}">
                         {{ title_text }}

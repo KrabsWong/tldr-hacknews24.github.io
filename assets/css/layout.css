@@ -207,6 +207,11 @@ hr {
     width: 100%;
   }
 
+  .sidebar h1,
+  .sidebar p {
+    display: none;
+  }
+
   .content {
     width: 100%;
     max-width: 100%;

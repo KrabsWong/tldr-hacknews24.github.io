@@ -104,6 +104,10 @@ body {
   align-items: center;
 }
 
+.mobile-header a {
+  text-decoration: none;
+}
+
 .mobile-header .mobile-title {
   font-size: 1.1rem;
   font-weight: 700;
@@ -183,6 +187,91 @@ body {
   overflow: hidden;
 }
 
+/* Post titles styling */
+.post-titles {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.article-title {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.3rem 0;
+  transition: color 0.2s ease;
+  display: block;
+}
+
+.article-title:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+/* Pagination controls */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+.pagination-controls button {
+  background: none;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  border-color: var(--accent-color);
+  background: var(--bg-secondary);
+  color: var(--accent-color);
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--text-tertiary);
+}
+
+.pagination-controls button:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.pagination-info {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.pagination-info #current-page,
+.pagination-info #total-pages {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 hr {
   border: none;
   height: 20px;
@@ -234,6 +323,25 @@ hr {
   .post-excerpt {
     font-size: 0.9rem;
     -webkit-line-clamp: 2;
+  }
+
+  .article-title {
+    font-size: 0.85rem;
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .pagination-controls button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .pagination-info {
+    font-size: 0.9rem;
   }
 
   hr {

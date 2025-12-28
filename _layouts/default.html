@@ -38,10 +38,31 @@
               <a href="{{ post.url | relative_url }}" class="post-link">
                 <h2>{{ post.date | date: "%Y-%m-%d" }}</h2>
               </a>
-              <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 350 }}</p>
+              <div class="post-titles">
+                {% assign titles = post.content | split: "## " %}
+                {% for title_section in titles %}
+                  {% if forloop.first == false %}
+                    {% assign title_line = title_section | split: "
+" | first %}
+                    {% assign clean_title = title_line | strip %}
+                    {% if clean_title != "" %}
+                      <a href="{{ post.url | relative_url }}" class="article-title" aria-label="阅读文章: {{ clean_title }}">
+                        {{ clean_title }}
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </div>
             </li>
           {% endfor %}
         </ul>
+        
+        <div class="pagination-controls" style="display: none;">
+          <button class="pagination-prev" aria-label="上一页" disabled>← 上一页</button>
+          <span class="pagination-info">第 <span id="current-page">1</span> 页 / 共 <span id="total-pages">1</span> 页</span>
+          <button class="pagination-next" aria-label="下一页">下一页 →</button>
+        </div>
+        <div aria-live="polite" class="sr-only" id="pagination-announce"></div>
       </main>
     </div>
 
@@ -66,6 +87,8 @@
         applySystemTheme();
       });
     </script>
+    
+    <script src="{{ "/assets/js/pagination.js" | relative_url }}"></script>
 
     {% if site.google_analytics %}
       <!-- Google tag (gtag.js) -->

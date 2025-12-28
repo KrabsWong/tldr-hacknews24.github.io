@@ -8,9 +8,9 @@
     <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
     <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
-    <link rel="stylesheet" href="{{ "/assets/css/theme.css" | relative_url }}?v=6">
-    <link rel="stylesheet" href="{{ "/assets/css/layout.css" | relative_url }}?v=6">
-    <link rel="stylesheet" href="{{ "/assets/css/components.css" | relative_url }}?v=6">
+    <link rel="stylesheet" href="{{ "/assets/css/theme.css" | relative_url }}?v=7">
+    <link rel="stylesheet" href="{{ "/assets/css/layout.css" | relative_url }}?v=7">
+    <link rel="stylesheet" href="{{ "/assets/css/components.css" | relative_url }}?v=7">
   </head>
   <body>
     <header class="mobile-header">
@@ -212,8 +212,16 @@
         mobileMenuToggle.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
           openMobileDrawer();
         });
+        // Also handle touch events to prevent click-through
+        mobileMenuToggle.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          openMobileDrawer();
+        }, { passive: false });
       }
 
       // Close drawer on overlay click
@@ -235,12 +243,25 @@
 
       // Back to top button functionality
       if (backToTopBtn) {
-        backToTopBtn.addEventListener('click', function() {
+        backToTopBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
           window.scrollTo({
             top: 0,
             behavior: 'smooth'
           });
         });
+        // Also handle touch events to prevent click-through
+        backToTopBtn.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }, { passive: false });
       }
 
       // Update active state on scroll

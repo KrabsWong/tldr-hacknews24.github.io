@@ -48,9 +48,11 @@
     // Set up event listeners
     if (prevButton) {
       prevButton.addEventListener('click', handlePrevClick);
+      prevButton.addEventListener('touchend', handlePrevTouch, { passive: false });
     }
     if (nextButton) {
       nextButton.addEventListener('click', handleNextClick);
+      nextButton.addEventListener('touchend', handleNextTouch, { passive: false });
     }
 
     // Handle window resize
@@ -89,8 +91,8 @@
       }
     });
 
-    // Expand first visible post
-    if (typeof window.expandFirstVisiblePost === 'function') {
+    // Only expand first post on page 1
+    if (pageNumber === 1 && typeof window.expandFirstVisiblePost === 'function') {
       window.expandFirstVisiblePost();
     }
 
@@ -148,6 +150,19 @@
   function handlePrevClick(e) {
     e.preventDefault();
     e.stopPropagation();
+    e.stopImmediatePropagation();
+    if (state.currentPage > 1) {
+      showPage(state.currentPage - 1);
+    }
+  }
+
+  /**
+   * Handle previous link touch (prevent click-through)
+   */
+  function handlePrevTouch(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
     if (state.currentPage > 1) {
       showPage(state.currentPage - 1);
     }
@@ -159,6 +174,19 @@
   function handleNextClick(e) {
     e.preventDefault();
     e.stopPropagation();
+    e.stopImmediatePropagation();
+    if (state.currentPage < state.totalPages) {
+      showPage(state.currentPage + 1);
+    }
+  }
+
+  /**
+   * Handle next link touch (prevent click-through)
+   */
+  function handleNextTouch(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
     if (state.currentPage < state.totalPages) {
       showPage(state.currentPage + 1);
     }

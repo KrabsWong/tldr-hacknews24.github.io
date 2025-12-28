@@ -269,6 +269,10 @@ body {
   color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.2s ease;
+  /* Prevent click-through issues */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .pagination-controls a:hover:not(.disabled) {

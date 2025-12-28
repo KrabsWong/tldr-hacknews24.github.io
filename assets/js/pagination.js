@@ -147,6 +147,7 @@
    */
   function handlePrevClick(e) {
     e.preventDefault();
+    e.stopPropagation();
     if (state.currentPage > 1) {
       showPage(state.currentPage - 1);
     }
@@ -157,6 +158,7 @@
    */
   function handleNextClick(e) {
     e.preventDefault();
+    e.stopPropagation();
     if (state.currentPage < state.totalPages) {
       showPage(state.currentPage + 1);
     }

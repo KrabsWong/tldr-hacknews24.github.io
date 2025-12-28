@@ -72,14 +72,27 @@
     const startIndex = (pageNumber - 1) * state.itemsPerPage;
     const endIndex = Math.min(startIndex + state.itemsPerPage, state.totalItems);
 
-    // Hide all items, then show only current page items
+    // First, collapse all posts and hide all items
     state.postItems.forEach((item, index) => {
+      const button = item.querySelector('.toggle-titles');
+      const titlesDiv = item.querySelector('.post-titles');
+      
       if (index >= startIndex && index < endIndex) {
         item.style.display = '';
+        // Collapse all posts in current page
+        if (button && titlesDiv) {
+          button.setAttribute('aria-expanded', 'false');
+          titlesDiv.classList.add('collapsed');
+        }
       } else {
         item.style.display = 'none';
       }
     });
+
+    // Expand first visible post
+    if (typeof window.expandFirstVisiblePost === 'function') {
+      window.expandFirstVisiblePost();
+    }
 
     // Update controls
     updateControls();

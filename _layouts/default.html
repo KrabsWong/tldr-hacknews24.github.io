@@ -39,11 +39,11 @@
                 <a href="{{ post.url | relative_url }}" class="post-link">
                   <h2>{{ post.date | date: "%Y-%m-%d" }}</h2>
                 </a>
-                <button class="toggle-titles" aria-label="展开/收起标题列表" aria-expanded="false">
+                <button class="toggle-titles" aria-label="展开/收起标题列表" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
                   <span class="toggle-icon">▼</span>
                 </button>
               </div>
-              <div class="post-titles collapsed">
+              <div class="post-titles {% unless forloop.first %}collapsed{% endunless %}">
                 {% assign html_content = post.content %}
                 {% assign h2_sections = html_content | split: "<h2" %}
                 {% for section in h2_sections %}

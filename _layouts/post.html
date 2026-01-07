@@ -40,8 +40,11 @@
       </aside>
 
       <main class="content">
+        {% assign html_content = content %}
+        {% assign h2_sections = html_content | split: "<h2" %}
+        {% assign article_count = h2_sections.size | minus: 1 %}
         <div class="post-meta">
-          <strong>{{ page.title }}</strong>
+          <strong>{{ page.title }} ({{ article_count }})</strong>
           <span class="post-meta-date">{{ page.date | date: "%Y年%m月%d日" }}</span>
         </div>
 

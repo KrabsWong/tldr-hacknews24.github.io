@@ -21,12 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Rewrite all H2 IDs to simple sequential format (article-1, article-2, ...)
   headings.forEach((heading, index) => {
     heading.id = 'article-' + (index + 1);
+    heading.textContent = heading.textContent.replace(/^\d+\.\s*/, '');
 
     // Create outline item for desktop TOC
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = '#' + heading.id;
-    a.textContent = heading.textContent.replace(/^\d+\.\s*/, ''); // Remove numbering
+    a.textContent = heading.textContent;
     a.className = 'outline-link';
     li.appendChild(a);
     outlineList.appendChild(li);
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileLi = document.createElement('li');
     const mobileA = document.createElement('a');
     mobileA.href = '#' + heading.id;
-    mobileA.textContent = heading.textContent.replace(/^\d+\.\s*/, '');
+    mobileA.textContent = heading.textContent;
     mobileA.className = 'mobile-nav-link';
     mobileLi.appendChild(mobileA);
     mobileNavList.appendChild(mobileLi);

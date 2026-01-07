@@ -110,25 +110,25 @@ And long title lists should not cause layout issues
 The homepage MUST extract and display all article titles (H2 headings) from each post's content, allowing users to see the full list of articles without clicking through.
 
 #### Scenario: View all titles for a single day's post
-Given a post titled "HackerNews Daily - 2025-12-28" with 10 articles (H2 headings)
-When the user visits the homepage
-Then all 10 article titles should be displayed below the date
-And each title should be clearly distinguishable
-And titles should maintain their original numbering (e.g., "1. Title", "2. Title")
+- **GIVEN** a post titled "HackerNews Daily - 2025-12-28" with 10 articles (H2 headings)
+- **WHEN** user visits the homepage
+- **THEN** all 10 article titles MUST be displayed below the date
+- **AND** each title MUST be clearly distinguishable
+- **AND** titles MUST NOT include their original numeric prefix (e.g., display "Article Title" instead of "9. Article Title")
 
 #### Scenario: Titles preserve multilingual content
-Given a post with article titles in English and Chinese
-When the titles are displayed on the homepage
-Then both English and Chinese titles should render correctly
-And character encoding should be preserved
-And text should not be truncated or garbled
+- **GIVEN** a post with article titles in English and Chinese
+- **WHEN** the titles are displayed on the homepage
+- **THEN** both English and Chinese titles MUST render correctly
+- **AND** character encoding MUST be preserved
+- **AND** text MUST NOT be truncated or garbled
 
 #### Scenario: Empty or malformed posts
-Given a post with no H2 headings or malformed content
-When the post is displayed on the homepage
-Then the system should display a fallback message (e.g., "无文章标题") or the original excerpt
-And the layout should not break
-And no JavaScript errors should occur
+- **GIVEN** a post with no H2 headings or malformed content
+- **WHEN** the post is displayed on the homepage
+- **THEN** the system MUST display a fallback message (e.g., "无文章标题") or the original excerpt
+- **AND** the layout MUST NOT break
+- **AND** no JavaScript errors MUST occur
 
 ### Requirement: Titles are extracted via server-side templating
 The system MUST use Jekyll's Liquid templating to extract article titles during the build process, ensuring titles are available without JavaScript.
@@ -176,23 +176,11 @@ And the transition should be smooth (e.g., 0.2s ease)
 ### Requirement: Titles maintain clickability to post detail
 Each displayed article title MUST be clickable and navigate to the full post detail page, allowing users to read the complete article.
 
-#### Scenario: Click title to navigate to post with anchor
-- **WHEN** a user clicks on an article title displayed on the homepage
-- **THEN** the browser MUST navigate to the full post detail page with an anchor fragment (e.g., `/2025/12/28/daily/#article-1`)
-- **AND** the page MUST automatically scroll to the specific article heading
-- **AND** the scroll behavior MUST be smooth
-- **AND** the scroll position MUST account for any fixed header offset
-
-#### Scenario: Anchor ID uses simple sequential format
-- **WHEN** the homepage generates article title links
-- **THEN** the anchor ID MUST use the format `article-{n}` where n is the 1-based position of the article in the post
-- **AND** the detail page MUST rewrite all H2 heading IDs to match this format at runtime via JavaScript
-
 #### Scenario: Title links have proper accessibility
-- **WHEN** article titles are rendered as clickable links
-- **THEN** each title link MUST have descriptive text (e.g., "阅读文章: 标题")
-- **AND** links MUST be keyboard accessible (tab navigation)
-- **AND** focus indicators MUST be clearly visible
+- **GIVEN** an article titled "9. Opus 4.5 与我迄今为止体验过的常规AI智能体截然不同"
+- **WHEN** the article title link is rendered on the homepage
+- **THEN** the aria-label MUST display "阅读文章: Opus 4.5 与我迄今为止体验过的常规AI智能体截然不同"
+- **AND** the numeric prefix "9." MUST NOT be present in the aria-label
 
 ### Requirement: Homepage displays title list instead of excerpts
 The homepage MUST display a structured title list instead of truncated excerpts to show all article titles.
@@ -243,4 +231,51 @@ The table of contents on the post detail page MUST use the same sequential ID fo
 - **WHEN** the mobile navigation drawer TOC is generated
 - **THEN** each link MUST use the rewritten H2 ID (e.g., `#article-1`)
 - **AND** clicking a link MUST close the drawer and smoothly scroll to the corresponding heading
+
+### Requirement: Homepage displays article count in date headers
+The homepage MUST display the total number of articles for each day next to the date header.
+
+#### Scenario: Date header shows article count
+- **GIVEN** a post dated "2026-01-07" containing 30 articles
+- **WHEN** the homepage renders the date header
+- **THEN** the header MUST display "2026-01-07 (30)"
+- **AND** the count MUST accurately reflect the number of H2 headings in the post
+
+#### Scenario: Single article count display
+- **GIVEN** a post dated "2026-01-06" containing 1 article
+- **WHEN** the homepage renders the date header
+- **THEN** the header MUST display "2026-01-06 (1)"
+- **AND** the count format MUST be consistent with multi-article posts
+
+### Requirement: Post detail page removes number prefixes from headings
+The post detail page MUST remove numeric prefixes from H2 heading text content while preserving all HTML attributes (including `id` attribute for anchor navigation).
+
+#### Scenario: H2 headings display without number prefix but preserve attributes
+- **GIVEN** a post with H2 heading `<h2 id="article-9">9. Opus 4.5...</h2>`
+- **WHEN** the post detail page is rendered
+- **THEN** the H2 tag MUST keep its `id="article-9"` attribute unchanged
+- **AND** the H2 tag MUST keep all other attributes unchanged
+- **AND** the H2 heading text content MUST display only "Opus 4.5..." without the "9." prefix
+- **AND** anchor navigation via `#article-9` MUST continue to work correctly
+
+#### Scenario: TOC navigation preserves clean titles
+- **GIVEN** the post detail page displays a table of contents
+- **WHEN** the TOC is generated
+- **THEN** TOC items MUST display titles without numeric prefixes
+- **AND** TOC links MUST still navigate to the correct heading via anchor
+
+### Requirement: Post detail page displays article count in title
+The post detail page MUST display the total number of articles in the page title.
+
+#### Scenario: Post title includes article count
+- **GIVEN** a post titled "HackerNews Daily - 2026-01-07" with 30 articles
+- **WHEN** the post detail page is rendered
+- **THEN** the page title MUST display "HackerNews Daily - 2026-01-07 (30)"
+- **AND** the count MUST be calculated from the number of H2 headings
+
+#### Scenario: Count matches actual articles
+- **GIVEN** a post with 15 H2 headings
+- **WHEN** the post detail page is rendered
+- **THEN** the displayed count MUST be "15"
+- **AND** the count MUST match the actual number of visible article sections
 

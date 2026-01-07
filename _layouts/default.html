@@ -34,26 +34,28 @@
       <main class="content">
         <ul class="post-list">
           {% for post in site.posts %}
+            {% assign html_content = post.content %}
+            {% assign h2_sections = html_content | split: "<h2" %}
+            {% assign article_count = h2_sections.size | minus: 1 %}
             <li class="post-item">
               <div class="post-header">
                 <a href="{{ post.url | relative_url }}" class="post-link">
-                  <h2>{{ post.date | date: "%Y-%m-%d" }}</h2>
+                  <h2>{{ post.date | date: "%Y-%m-%d" }} ({{ article_count }})</h2>
                 </a>
                 <button class="toggle-titles" aria-label="展开/收起标题列表" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
                   <span class="toggle-icon">▼</span>
                 </button>
               </div>
               <div class="post-titles {% unless forloop.first %}collapsed{% endunless %}">
-                {% assign html_content = post.content %}
-                {% assign h2_sections = html_content | split: "<h2" %}
                 {% assign article_index = 1 %}
                 {% for section in h2_sections %}
                   {% if forloop.first == false %}
                     {% assign title_with_tag = section | split: "</h2>" | first %}
                     {% assign title_text = title_with_tag | split: ">" | last | strip_html | strip %}
+                    {% assign title_clean = title_text | remove_number_prefix %}
                     {% unless title_text == "" %}
-                      <a href="{{ post.url | relative_url }}#article-{{ article_index }}" class="article-title" aria-label="阅读文章: {{ title_text }}">
-                        {{ title_text }}
+                      <a href="{{ post.url | relative_url }}#article-{{ article_index }}" class="article-title" aria-label="阅读文章: {{ title_clean }}">
+                        {{ title_clean }}
                       </a>
                       {% assign article_index = article_index | plus: 1 %}
                     {% endunless %}
